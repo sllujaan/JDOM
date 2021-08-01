@@ -77,25 +77,25 @@ public class CreateXML {
 
 	public static void main(String[] args) {
         try {
-        	//create new XML document
-    		Document doc = new Document();
-    		Element OrderElement = doc.setRootElement(new Element("Order")).getRootElement();
-    		//get Orders
-    		Order orders[] = new Orders().get();
-    		
-    		//create XML element for each order
-    		for(int i = 0; i < orders.length; i++ ) {
-    			//append customer element in order element
-    			OrderElement.addContent(createCustomerXMLElement(orders[i]));
-    		}
-    		
-            XMLOutputter xmlOutput = new XMLOutputter();
-            // display XML in a google looking format
-            xmlOutput.setFormat(Format.getPrettyFormat());
-            //export XML file
-            xmlOutput.output(doc, new FileWriter("orderdetail.xml"));
-
-            System.out.println("File exported orderdetail.xml");
+			//create new XML document
+			Document doc = new Document();
+			Element OrderElement = doc.setRootElement(new Element("Order")).getRootElement();
+			//get Orders
+			Order orders[] = new Orders().get();
+			
+			//create XML element for each order
+			for(int i = 0; i < orders.length; i++ ) {
+				//append customer element in order element
+				OrderElement.addContent(createCustomerXMLElement(orders[i]));
+			}
+			
+			XMLOutputter xmlOutput = new XMLOutputter();
+			// display XML in a google looking format
+			xmlOutput.setFormat(Format.getPrettyFormat());
+			//export XML file
+			xmlOutput.output(doc, new FileWriter("orderdetail.xml"));
+			
+			System.out.println("File exported orderdetail.xml");
         } catch (IOException io) {
             System.out.println(io.getMessage());
         }
@@ -108,12 +108,12 @@ public class CreateXML {
 		String CustomerAge = String.valueOf(order.getAge());
 		String CustomerCity = order.getCity();
 		
-	    Element Customer = new Element("Customer");
-	    Customer.setAttribute(new Attribute("order_id", CustomerId));
-	    Customer.addContent(new Element("name").setText(CustomerName));
-	    Customer.addContent(new Element("age").setText(CustomerAge));
-	    Customer.addContent(new Element("city").setText(CustomerCity));
-	    return Customer;
+		Element Customer = new Element("Customer");
+		Customer.setAttribute(new Attribute("order_id", CustomerId));
+		Customer.addContent(new Element("name").setText(CustomerName));
+		Customer.addContent(new Element("age").setText(CustomerAge));
+		Customer.addContent(new Element("city").setText(CustomerCity));
+		return Customer;
 	}
 
 }
