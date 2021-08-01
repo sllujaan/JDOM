@@ -15,20 +15,51 @@ class Order {
 	private int Age;
 	private String City;
 	
-	public Order(String _name, int _age, String _city) {
-		this.Name = _name;
-		this.Age = _age;
-		this.City = _city;
+	public Order(String name, int age, String city) {
+		this.Name = name;
+		this.Age = age;
+		this.City = city;
 	}
-	
+
+	public String getName() {
+		return Name;
+	}
+
+	public void setName(String name) {
+		Name = name;
+	}
+
+	public int getAge() {
+		return Age;
+	}
+
+	public void setAge(int age) {
+		Age = age;
+	}
+
+	public String getCity() {
+		return City;
+	}
+
+	public void setCity(String city) {
+		City = city;
+	}
 	
 }
 
-interface Orders {
-	String Customers[][] = {
-			{},
-			{}
+class Orders {
+	private Order order[] = {		// this data could be comming from database
+		new Order("Ali", 20, "Lahore"),
+		new Order("Humza", 32, "Islamabad"),
 	};
+
+	public Order[] get() {
+		return order;
+	}
+
+	public void set(Order[] _order) {
+		this.order = _order;
+	}
 }
 
 
@@ -36,6 +67,13 @@ public class CreateXML {
 
 	public static void main(String[] args) {
 		System.out.println("hello!");
+		
+			
+		
+		Order orders[] = new Orders().get();
+		for(int i = 0; i < orders.length; i++ ) {
+			System.out.println(orders[i].getName());
+		}
 		
         try {
             Document doc = new Document();
