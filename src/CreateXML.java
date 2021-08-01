@@ -11,14 +11,24 @@ import org.jdom2.output.XMLOutputter;
 
 
 class Order {
+	private int Id;
 	private String Name;
 	private int Age;
 	private String City;
 	
-	public Order(String name, int age, String city) {
+	public Order(int id, String name, int age, String city) {
+		this.Id = id;
 		this.Name = name;
 		this.Age = age;
 		this.City = city;
+	}
+	
+	public int getId() {
+		return Id;
+	}
+
+	public void setId(int id) {
+		Id = id;
 	}
 
 	public String getName() {
@@ -48,9 +58,9 @@ class Order {
 }
 
 class Orders {
-	private Order order[] = {		// this data could be comming from database
-		new Order("Ali", 20, "Lahore"),
-		new Order("Humza", 32, "Islamabad"),
+	private Order order[] = {		// this data could be coming from database
+		new Order(11, "Ali", 20, "Lahore"),
+		new Order(12, "Humza", 32, "Islamabad"),
 	};
 
 	public Order[] get() {
@@ -68,21 +78,28 @@ public class CreateXML {
 	public static void main(String[] args) {
 		System.out.println("hello!");
 		
-			
-		
-		Order orders[] = new Orders().get();
-		for(int i = 0; i < orders.length; i++ ) {
-			System.out.println(orders[i].getName());
-		}
 		
         try {
-            Document doc = new Document();
-            doc.setRootElement(new Element("Users"));
+        	//create new XML document
+    		Document doc = new Document();
+    		Element OrderElement = doc.setRootElement(new Element("Order")).getRootElement();
+    		//get Orders
+    		//could be coming from database
+    		Order orders[] = new Orders().get();
+    		
+    		//create XML element for each order
+    		for(int i = 0; i < orders.length; i++ ) {
+    			System.out.println(orders[i].getName());
+    			OrderElement.addContent(createCustomerXMLElement(orders[i]));
+    		}
+    		
+    		
+            
 
-            doc.getRootElement().addContent(createUserXMLElement("1", "Ramesh", "Fadatare", "28", "Male"));
-            doc.getRootElement().addContent(createUserXMLElement("2", "Tom", "Cruise", "45", "Male"));
-            doc.getRootElement().addContent(createUserXMLElement("3", "Tony", "Stark", "40", "Male"));
-            doc.getRootElement().addContent(createUserXMLElement("3", "Amir", "Khan", "50", "Male"));
+    		OrderElement.addContent(createUserXMLElement("1", "Ramesh", "Fadatare", "28", "Male"));
+    		OrderElement.addContent(createUserXMLElement("2", "Tom", "Cruise", "45", "Male"));
+    		OrderElement.addContent(createUserXMLElement("3", "Tony", "Stark", "40", "Male"));
+    		OrderElement.addContent(createUserXMLElement("3", "Amir", "Khan", "50", "Male"));
 
             // new XMLOutputter().output(doc, System.out);
             XMLOutputter xmlOutput = new XMLOutputter();
@@ -98,15 +115,18 @@ public class CreateXML {
 
 	}
 
-	private static Element createUserXMLElement(String id, String firstName, String lastName, String age,
-	    String gender) {
-	    Element user = new Element("User");
-	    user.setAttribute(new Attribute("id", id));
-	    user.addContent(new Element("firstName").setText(firstName));
-	    user.addContent(new Element("lastName").setText(lastName));
-	    user.addContent(new Element("age").setText(age));
-	    user.addContent(new Element("gender").setText(gender));
-	    return user;
+	private static Element createCustomerXMLElement(Order order) {
+		String CustomerId = String.valueOf(order.getId());
+		String CustomerName = order.getName();
+		String CustomerAge = String.valueOf(order.getAge());
+		String CustomerCity = order.getCity();
+		
+	    Element Customer = new Element("Customer");
+	    Customer.setAttribute(new Attribute("order_id", CustomerId));
+	    Customer.addContent(new Element("name").setText(CustomerName));
+	    Customer.addContent(new Element("age").setText(CustomerAge));
+	    Customer.addContent(new Element("city").setText(CustomerCity));
+	    return Customer;
 	}
 
 }
