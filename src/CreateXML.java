@@ -67,7 +67,7 @@ class Orders {
 		return order;
 	}
 
-	public void set(Order[] _order) {
+	public void set(Order[] _order) {	// this data could be coming from database
 		this.order = _order;
 	}
 }
@@ -76,39 +76,26 @@ class Orders {
 public class CreateXML {
 
 	public static void main(String[] args) {
-		System.out.println("hello!");
-		
-		
         try {
         	//create new XML document
     		Document doc = new Document();
     		Element OrderElement = doc.setRootElement(new Element("Order")).getRootElement();
     		//get Orders
-    		//could be coming from database
     		Order orders[] = new Orders().get();
     		
     		//create XML element for each order
     		for(int i = 0; i < orders.length; i++ ) {
-    			System.out.println(orders[i].getName());
+    			//append customer element in order element
     			OrderElement.addContent(createCustomerXMLElement(orders[i]));
     		}
     		
-    		
-            
-
-    		OrderElement.addContent(createUserXMLElement("1", "Ramesh", "Fadatare", "28", "Male"));
-    		OrderElement.addContent(createUserXMLElement("2", "Tom", "Cruise", "45", "Male"));
-    		OrderElement.addContent(createUserXMLElement("3", "Tony", "Stark", "40", "Male"));
-    		OrderElement.addContent(createUserXMLElement("3", "Amir", "Khan", "50", "Male"));
-
-            // new XMLOutputter().output(doc, System.out);
             XMLOutputter xmlOutput = new XMLOutputter();
-            // xmlOutput.output(doc, System.out);
-            // display nice nice
+            // display XML in a google looking format
             xmlOutput.setFormat(Format.getPrettyFormat());
+            //export XML file
             xmlOutput.output(doc, new FileWriter("orderdetail.xml"));
 
-            System.out.println("File Saved!");
+            System.out.println("File exported orderdetail.xml");
         } catch (IOException io) {
             System.out.println(io.getMessage());
         }
